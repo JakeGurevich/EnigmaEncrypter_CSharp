@@ -1,0 +1,182 @@
+﻿<Window x:Class="EnigmaEncrypter.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:EnigmaEncrypter"
+        mc:Ignorable="d"
+        Title="BetterThenEnigma" Height="450" Width="800">
+    <Window.Resources>
+        <Style TargetType="TextBox">
+            <Style.Triggers>
+                <Trigger Property="Validation.HasError" Value="True">
+                    <Setter Property="ToolTip"
+                Value="{Binding RelativeSource={RelativeSource Self},
+                    Path=(Validation.Errors)[0].ErrorContent}" />
+                    <Setter Property="Foreground" Value="Blue" />
+                </Trigger>
+            </Style.Triggers>
+        </Style>
+        <ControlTemplate x:Key="validationFailed">
+            <StackPanel Orientation="Horizontal">
+                <Border BorderBrush="Violet" BorderThickness="1">
+                    <AdornedElementPlaceholder />
+                </Border>
+                <TextBlock Foreground="Red"  FontWeight="Bold">!</TextBlock>
+            </StackPanel>
+        </ControlTemplate>
+
+        <Style TargetType="Button">
+            <Setter  Property="FontSize"  Value="23"/>
+            <Setter  Property="FontWeight" Value="Bold"/>
+            <Setter  Property="Foreground" Value="CornflowerBlue"/>
+            <Setter  Property="Background" Value="LightPink"/>
+
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Button">
+                        <Border x:Name="buttonBorder" CornerRadius="15"
+                BorderBrush="{TemplateBinding BorderBrush}"
+                BorderThickness="{TemplateBinding BorderThickness}"
+                Background="{TemplateBinding Background}"
+                Height="{TemplateBinding Height}"
+                Width="{TemplateBinding Width}" Margin="5" >
+                            <ContentControl Margin="{TemplateBinding Padding}"
+                    HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
+                    VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
+                    Content="{TemplateBinding Content}" />
+                        </Border>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsMouseOver" Value="true">
+                                <Setter Property="FontSize" Value="24" />
+                                <Setter Property="Background" Value="HotPink" />
+                            </Trigger>
+                            <Trigger Property="IsPressed" Value="true">
+                                <Setter TargetName="buttonBorder" Property="Background" Value="Azure" />
+                                <Setter TargetName="buttonBorder" Property="BorderBrush" Value="DarkBlue" />
+                            </Trigger>
+                            <Trigger Property="IsEnabled" Value="false">
+                                <Setter Property="Foreground" Value="Gray"/>
+                                <Setter TargetName="buttonBorder" Property="Background" Value="LightGray"/>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+
+            </Setter>
+        </Style>
+    </Window.Resources>
+    <Grid Background="BlanchedAlmond">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="100"/>
+            <RowDefinition Height="100"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="*"/>
+            
+        </Grid.ColumnDefinitions>
+        <TextBox Grid.Row="0" Grid.ColumnSpan="10" Margin="20,5,20,5" IsReadOnly="True" Text="{Binding Result}"
+                 TextAlignment="Center"
+                  FontSize="25" Padding="0,10,0,0"/>
+        <StackPanel Grid.Row="1" Grid.Column="6" Grid.ColumnSpan="5" Orientation="Horizontal" HorizontalAlignment="Stretch" VerticalAlignment="Center">
+            <Button Content="Reset" Command="{Binding ResetCmd}" ></Button>
+            <Button Content="Reset All" ></Button>
+            <Button Content="Save" ></Button>
+        </StackPanel>
+        <Grid Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="2">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="*"/>
+            </Grid.RowDefinitions>
+        <StackPanel Grid.Row="0"  HorizontalAlignment="Center">
+            <TextBlock Text="Input:"/>
+            <TextBlock Text="{Binding Input}" Foreground="Red" Margin="0,10,0,0"/>
+        </StackPanel>
+            
+        <StackPanel Grid.Row="1" HorizontalAlignment="Center">
+            <TextBlock Text="Output:"/>
+            <TextBlock Text="{Binding Output}" Foreground="DarkGreen" Margin="0,10,0,0"/>
+        </StackPanel>
+        </Grid>
+        <StackPanel Orientation="Horizontal" Grid.Row="1" Grid.Column="2" Grid.ColumnSpan="4" >
+            <StackPanel >
+                <TextBlock Text="1 Wheel:"/>
+                <TextBox Validation.ErrorTemplate="{StaticResource validationFailed}">
+                    <TextBox.Text>
+                        <Binding Path="FirstWheelStartPosition" UpdateSourceTrigger="PropertyChanged">
+                          
+                            <Binding.ValidationRules>
+                                <DataErrorValidationRule />
+                            </Binding.ValidationRules>
+                        </Binding>
+                    </TextBox.Text>
+                </TextBox>
+            </StackPanel >
+            <StackPanel Margin="10,0,10,0">
+                <TextBlock Text="2 Wheel:"/>
+                <TextBox Validation.ErrorTemplate="{StaticResource validationFailed}" >
+                    <TextBox.Text>
+                        <Binding Path="SecondWheelStartPosition" UpdateSourceTrigger="PropertyChanged">
+
+                            <Binding.ValidationRules>
+                                <DataErrorValidationRule />
+                            </Binding.ValidationRules>
+                        </Binding>
+                    </TextBox.Text>
+                </TextBox> 
+            </StackPanel>
+            <StackPanel Margin="10,0,10,0">
+                <TextBlock Text="3 Wheel:"/>
+                <TextBox Validation.ErrorTemplate="{StaticResource validationFailed}">
+                    <TextBox.Text>
+                        <Binding Path="ThirdWheelStartPosition" UpdateSourceTrigger="PropertyChanged">
+
+                            <Binding.ValidationRules>
+                                <DataErrorValidationRule />
+                            </Binding.ValidationRules>
+                        </Binding>
+                    </TextBox.Text>
+
+                </TextBox>
+            </StackPanel>
+        </StackPanel>
+        <Button Content="Q" Grid.Row="2" Grid.Column="0" Command="{Binding PressCmd}" CommandParameter='Q'/>
+        <Button Content="W" Grid.Row="2" Grid.Column="1" Command="{Binding PressCmd}" CommandParameter="W"/>
+        <Button Content="E" Grid.Row="2" Grid.Column="2" Command="{Binding PressCmd}" CommandParameter="E"/>
+        <Button Content="R" Grid.Row="2" Grid.Column="3" Command="{Binding PressCmd}" CommandParameter="R"/>
+        <Button Content="T" Grid.Row="2" Grid.Column="4" Command="{Binding PressCmd}" CommandParameter="T"/>
+        <Button Content="Y" Grid.Row="2" Grid.Column="5" Command="{Binding PressCmd}" CommandParameter="Y"/>
+        <Button Content="U" Grid.Row="2" Grid.Column="6" Command="{Binding PressCmd}" CommandParameter="U"/>
+        <Button Content="I" Grid.Row="2" Grid.Column="7" Command="{Binding PressCmd}" CommandParameter="I"/>
+        <Button Content="O" Grid.Row="2" Grid.Column="8" Command="{Binding PressCmd}" CommandParameter="O"/>
+        <Button Content="P" Grid.Row="2" Grid.Column="9" Command="{Binding PressCmd}" CommandParameter="P"/>
+        <Button Content="A" Grid.Row="3" Grid.Column="0" Command="{Binding PressCmd}" CommandParameter="A"/>
+        <Button Content="S" Grid.Row="3" Grid.Column="1" Command="{Binding PressCmd}" CommandParameter="S"/>
+        <Button Content="D" Grid.Row="3" Grid.Column="2" Command="{Binding PressCmd}" CommandParameter="D"/>
+        <Button Content="F" Grid.Row="3" Grid.Column="3" Command="{Binding PressCmd}" CommandParameter="F"/>
+        <Button Content="G" Grid.Row="3" Grid.Column="4" Command="{Binding PressCmd}" CommandParameter="G"/>
+        <Button Content="H" Grid.Row="3" Grid.Column="5" Command="{Binding PressCmd}" CommandParameter="H"/>
+        <Button Content="J" Grid.Row="3" Grid.Column="6" Command="{Binding PressCmd}" CommandParameter="J"/>
+        <Button Content="K" Grid.Row="3" Grid.Column="7" Command="{Binding PressCmd}" CommandParameter="K"/>
+        <Button Content="L" Grid.Row="3" Grid.Column="8" Command="{Binding PressCmd}" CommandParameter="L"/>
+        <Button Content="Z" Grid.Row="4" Grid.Column="1" Command="{Binding PressCmd}" CommandParameter="Z"/>
+        <Button Content="X" Grid.Row="4" Grid.Column="2" Command="{Binding PressCmd}" CommandParameter="X"/>
+        <Button Content="C" Grid.Row="4" Grid.Column="3" Command="{Binding PressCmd}" CommandParameter="C"/>
+        <Button Content="V" Grid.Row="4" Grid.Column="4" Command="{Binding PressCmd}" CommandParameter="V"/>
+        <Button Content="B" Grid.Row="4" Grid.Column="5" Command="{Binding PressCmd}" CommandParameter="B"/>
+        <Button Content="N" Grid.Row="4" Grid.Column="6" Command="{Binding PressCmd}" CommandParameter="N"/>
+        <Button Content="M" Grid.Row="4" Grid.Column="7" Command="{Binding PressCmd}" CommandParameter="M"/>
+    </Grid>
+</Window>
