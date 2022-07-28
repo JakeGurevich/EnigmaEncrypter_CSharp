@@ -91,16 +91,16 @@
                  TextAlignment="Center"
                   FontSize="25" Padding="0,10,0,0"/>
         <StackPanel Grid.Row="1" Grid.Column="6" Grid.ColumnSpan="5" Orientation="Horizontal" HorizontalAlignment="Stretch" VerticalAlignment="Center">
-            <Button Content="Reset" Command="{Binding ResetCmd}" ></Button>
-            <Button Content="Reset All" ></Button>
-            <Button Content="Save" ></Button>
+            <Button Content="Clear" Command="{Binding ResetCmd}" Margin="0,0,15,0" ></Button>
+            <Button Content="Reset" IsEnabled="False"></Button>
+            <Button Content="Save" IsEnabled="False"></Button>
         </StackPanel>
         <Grid Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="2">
             <Grid.RowDefinitions>
                 <RowDefinition Height="*"/>
                 <RowDefinition Height="*"/>
             </Grid.RowDefinitions>
-        <StackPanel Grid.Row="0"  HorizontalAlignment="Center">
+            <StackPanel Grid.Row="0"  HorizontalAlignment="Center" Margin="0,2,0,0">
             <TextBlock Text="Input:"/>
             <TextBlock Text="{Binding Input}" Foreground="Red" Margin="0,10,0,0"/>
         </StackPanel>
@@ -112,8 +112,8 @@
         </Grid>
         <StackPanel Orientation="Horizontal" Grid.Row="1" Grid.Column="2" Grid.ColumnSpan="4" >
             <StackPanel >
-                <TextBlock Text="1 Wheel:"/>
-                <TextBox Validation.ErrorTemplate="{StaticResource validationFailed}">
+                <TextBlock Text="1 Wheel:" Margin="0,2,0,0"/>
+                <TextBox Validation.ErrorTemplate="{StaticResource validationFailed}" Margin="0,10,0,0">
                     <TextBox.Text>
                         <Binding Path="FirstWheelStartPosition" UpdateSourceTrigger="PropertyChanged">
                           
@@ -125,8 +125,8 @@
                 </TextBox>
             </StackPanel >
             <StackPanel Margin="10,0,10,0">
-                <TextBlock Text="2 Wheel:"/>
-                <TextBox Validation.ErrorTemplate="{StaticResource validationFailed}" >
+                <TextBlock Text="2 Wheel:" Margin="0,2,0,0"/>
+                <TextBox Validation.ErrorTemplate="{StaticResource validationFailed}" Margin="0,10,0,0">
                     <TextBox.Text>
                         <Binding Path="SecondWheelStartPosition" UpdateSourceTrigger="PropertyChanged">
 
@@ -138,8 +138,8 @@
                 </TextBox> 
             </StackPanel>
             <StackPanel Margin="10,0,10,0">
-                <TextBlock Text="3 Wheel:"/>
-                <TextBox Validation.ErrorTemplate="{StaticResource validationFailed}">
+                <TextBlock Text="3 Wheel:" Margin="0,2,0,0"/>
+                <TextBox Validation.ErrorTemplate="{StaticResource validationFailed}" Margin="0,10,0,0">
                     <TextBox.Text>
                         <Binding Path="ThirdWheelStartPosition" UpdateSourceTrigger="PropertyChanged">
 
