@@ -1,7 +1,5 @@
-﻿ 
-using System.Windows; 
+﻿using System.Windows;
 using System.Windows.Input;
-using System.ComponentModel;
 
 namespace Base
 {
@@ -53,7 +51,7 @@ namespace Base
     /// defined in a View Model by exposing a Command dependency property.
     /// The class derives from Freezable to work around a limitation in WPF when data-binding from XAML.
     /// </summary>
-    public class CommandReference : System.Windows.Freezable, ICommand
+    public class CommandReference : Freezable, ICommand
     {
 
         public CommandReference()
