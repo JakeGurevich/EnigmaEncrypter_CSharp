@@ -32,6 +32,15 @@ namespace EnigmaEncrypter.Models
             Counter = wheelStartPosition;
         }
 
+        public EncryptionWheel(char[] letters)
+        {
+            WheelConverter = new Dictionary<int, int>();
+            for (int i = 0; i < letters.Length - 1; i++)
+            {
+                WheelConverter[i] = letters[i] - 65;
+            }
+        }
+
 
 
 
@@ -45,9 +54,7 @@ namespace EnigmaEncrypter.Models
         {
             var key = (value + Counter) % (WheelConverter.Count());
 
-            int encryptedValue;
-
-            bool hasValue = WheelConverter.TryGetValue(key, out encryptedValue);
+            bool hasValue = WheelConverter.TryGetValue(key, out var encryptedValue);
 
             if (hasValue)
             {

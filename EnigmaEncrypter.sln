@@ -5,7 +5,7 @@ VisualStudioVersion = 17.2.32505.173
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EnigmaEncrypter", "EnigmaEncrypter\EnigmaEncrypter.csproj", "{E315006E-B06E-456E-89D1-DEC357468723}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Base", "..\WpfCourse\Gidi\Base\Base\Base.csproj", "{82A11E07-B35E-46B3-AFBB-72348B115F8F}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Base", "Base\Base.csproj", "{FAB64EA1-DDE7-47D6-9168-CA60424D9F56}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -17,10 +17,10 @@ Global
 		{E315006E-B06E-456E-89D1-DEC357468723}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{E315006E-B06E-456E-89D1-DEC357468723}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{E315006E-B06E-456E-89D1-DEC357468723}.Release|Any CPU.Build.0 = Release|Any CPU
-		{82A11E07-B35E-46B3-AFBB-72348B115F8F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{82A11E07-B35E-46B3-AFBB-72348B115F8F}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{82A11E07-B35E-46B3-AFBB-72348B115F8F}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{82A11E07-B35E-46B3-AFBB-72348B115F8F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{FAB64EA1-DDE7-47D6-9168-CA60424D9F56}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{FAB64EA1-DDE7-47D6-9168-CA60424D9F56}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{FAB64EA1-DDE7-47D6-9168-CA60424D9F56}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{FAB64EA1-DDE7-47D6-9168-CA60424D9F56}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

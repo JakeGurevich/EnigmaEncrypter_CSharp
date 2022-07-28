@@ -16,8 +16,11 @@ namespace EnigmaEncrypter.Services
 
         private EncryptionWheel _ThirdEncryption;
 
+        //private EncryptionWheel
+
         private EncryptionWheel _Reflector;
 
+        private char[] _firstWheel = new[] {'A', 'S', 'D', 'F', 'G', 'H'};
        
         Dictionary<int, int> _FirstAbcIntDict = new Dictionary<int, int> { {0,19}, {2,1}, {1, 2}, {4, 3}, {3, 4},
             {6, 9}, {5, 11}, {8, 16}, {7, 17}, {9, 6},{11, 5},{10, 25}, {12, 24}, {14, 13}, {13, 14}, {15, 23}, {16, 8},
@@ -41,6 +44,7 @@ namespace EnigmaEncrypter.Services
 
         public EncryptionService()
         {
+            _FirstEncryption = new EncryptionWheel(_firstWheel);
             _FirstEncryption = new EncryptionWheel(_FirstAbcIntDict);
             
             _SecondEncryption = new EncryptionWheel(_SecondAbcIntDict);
@@ -48,7 +52,7 @@ namespace EnigmaEncrypter.Services
             _ThirdEncryption = new EncryptionWheel(_ThirdAbcIntDict);
           
             _Reflector = new EncryptionWheel(_ReflectorAbcIntDict);
-
+            
         }
 
 
@@ -75,28 +79,58 @@ namespace EnigmaEncrypter.Services
         public string EncryptLetter(LetterEnum inputLetter)
         {
 
-            var valueFromFirstWheel= _FirstEncryption.FromKeyToValue((int)inputLetter);
-            
-            var valueFromSecondWheel= _SecondEncryption.FromKeyToValue(valueFromFirstWheel);
-           
-            var valueFromThirdWheel= _ThirdEncryption.FromKeyToValue(valueFromSecondWheel);
-            
-            var valueFromReflector= _Reflector.FromKeyToValue(valueFromThirdWheel);
+            var val= _FirstEncryption.FromKeyToValue((int)inputLetter);
 
-            var keyFromThirdWheel = _ThirdEncryption.FromValueToKey(valueFromReflector);
-            
-            var keyFromSecondWheel = _SecondEncryption.FromValueToKey(keyFromThirdWheel);
-            
-            var KeyFromFirstWheel = _FirstEncryption.FromValueToKey(keyFromSecondWheel);
+            val = _SecondEncryption.FromKeyToValue(val);
+
+            val = _ThirdEncryption.FromKeyToValue(val);
+
+            val = _Reflector.FromKeyToValue(val);
+
+            val = _ThirdEncryption.FromValueToKey(val);
+
+            val = _SecondEncryption.FromValueToKey(val);
+
+            val = _FirstEncryption.FromValueToKey(val);
 
 
 
 
             RotateWheels(_FirstEncryption, _SecondEncryption, _ThirdEncryption);
 
-            var outputLetter = _ThirdEncryption.AbcArray[KeyFromFirstWheel];
+            var outputLetter = _ThirdEncryption.AbcArray[val];
 
             return outputLetter;
+        }
+
+        public string EncryptLetter(char input)
+        {
+            var intChr = input - 65;
+
+            var val = _FirstEncryption.FromKeyToValue(intChr);
+
+            val = _SecondEncryption.FromKeyToValue(val);
+
+            val = _ThirdEncryption.FromKeyToValue(val);
+
+            val = _Reflector.FromKeyToValue(val);
+
+            val = _ThirdEncryption.FromValueToKey(val);
+
+            val = _SecondEncryption.FromValueToKey(val);
+
+            val = _FirstEncryption.FromValueToKey(val);
+
+
+
+
+            RotateWheels(_FirstEncryption, _SecondEncryption, _ThirdEncryption);
+
+            return (val + 65).ToString();
+
+            //var outputLetter = _ThirdEncryption.AbcArray[val];
+
+            //return outputLetter;
         }
 
 

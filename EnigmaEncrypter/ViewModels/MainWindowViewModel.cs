@@ -15,16 +15,16 @@ namespace EnigmaEncrypter.ViewModels
         private readonly EncryptionService _Enigma;
         private const int MAX_WHELL_VALUE = 26;
         private const int MIN_WHELL_VALUE = 0;
-        private string _Result;
+        //private string _Result;
 
-        public string Result
-        {
-            get { return _Result; }
-            set
-            {
-                SetProperty(ref _Result, value);
-            }
-        }
+        //public string Result
+        //{
+        //    get { return _Result; }
+        //    set
+        //    {
+        //        SetProperty(ref _Result, value);
+        //    }
+        //}
 
         private string _Input;
 
@@ -117,10 +117,6 @@ namespace EnigmaEncrypter.ViewModels
             }
         }
 
-
-
-
-
         public Command PressCmd { get; }
         public Command ResetCmd { get; }
 
@@ -138,7 +134,7 @@ namespace EnigmaEncrypter.ViewModels
         {
 
             _Enigma.Reset();
-            Result = "";
+            //Result = "";
             Input = "";
             Output = "";
             FirstWheelStartPosition = 0;
@@ -147,12 +143,17 @@ namespace EnigmaEncrypter.ViewModels
 
         }
 
-        private void HandlePress(object letterObj)
+        private void HandlePress(object obj)
         {
-            var letter = Enum.Parse<Models.LetterEnum>(letterObj.ToString());
-            Input += letterObj.ToString();
-            Result += _Enigma.EncryptLetter(letter);
-            Output = Result;
+            if (obj is char chr)
+            {
+                Input += chr.ToString();
+                Output += _Enigma.EncryptLetter(char);
+            }
+            //var letter = Enum.Parse<Models.LetterEnum>(obj.ToString());
+            //Input += obj.ToString();
+            //Result += _Enigma.EncryptLetter(letter);
+            //Output = Result;
         }
     }
 }
