@@ -126,7 +126,7 @@ namespace EnigmaEncrypter.Services
 
             RotateWheels(_FirstEncryption, _SecondEncryption, _ThirdEncryption);
 
-            return (val + 65).ToString();
+            return ((char)(val + 65)).ToString();
 
             //var outputLetter = _ThirdEncryption.AbcArray[val];
 

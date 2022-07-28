@@ -145,10 +145,11 @@ namespace EnigmaEncrypter.ViewModels
 
         private void HandlePress(object obj)
         {
-            if (obj is char chr)
+            if (obj is string str)
             {
+                var chr = str[0];
                 Input += chr.ToString();
-                Output += _Enigma.EncryptLetter(char);
+                Output += _Enigma.EncryptLetter(chr);
             }
             //var letter = Enum.Parse<Models.LetterEnum>(obj.ToString());
             //Input += obj.ToString();
