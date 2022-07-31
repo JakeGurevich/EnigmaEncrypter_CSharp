@@ -13,19 +13,9 @@ namespace EnigmaEncrypter.ViewModels
     {
 
         private readonly EncryptionService _Enigma;
-        private const int MAX_WHELL_VALUE = 26;
+        private const int MAX_WHELL_VALUE = 25;
         private const int MIN_WHELL_VALUE = 0;
-        //private string _Result;
-
-        //public string Result
-        //{
-        //    get { return _Result; }
-        //    set
-        //    {
-        //        SetProperty(ref _Result, value);
-        //    }
-        //}
-
+       
         private string _Input;
 
         public string Input
@@ -69,7 +59,7 @@ namespace EnigmaEncrypter.ViewModels
 
                 if (SetProperty(ref _FirstWheelStartPosition, value))
                 {
-                    _Enigma?.SetPosition(_FirstWheelStartPosition, _SecondWheelStartPosition, _ThirdWheelStartPosition);
+                    _Enigma.Wheels[0].InitWheelPoisition(value);
                 }
             }
         }
@@ -91,7 +81,7 @@ namespace EnigmaEncrypter.ViewModels
                 }
                 SetProperty(ref _SecondWheelStartPosition, value);
 
-                _Enigma?.SetPosition(_FirstWheelStartPosition, _SecondWheelStartPosition, _ThirdWheelStartPosition);
+                _Enigma.Wheels[1].InitWheelPoisition(value);
             }
         }
 
@@ -113,7 +103,8 @@ namespace EnigmaEncrypter.ViewModels
                 }
                 SetProperty(ref _ThirdWheelStartPosition, value);
 
-                _Enigma?.SetPosition(_FirstWheelStartPosition, _SecondWheelStartPosition, _ThirdWheelStartPosition);
+                //_Enigma?.SetPosition( _ThirdWheelStartPosition,2);
+                _Enigma.Wheels[2].InitWheelPoisition(value);
             }
         }
 
