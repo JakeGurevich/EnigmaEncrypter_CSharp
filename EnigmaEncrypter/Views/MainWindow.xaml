@@ -9,6 +9,7 @@
         d:DataContext="{d:DesignInstance viewModels:MainWindowViewModel}"
         Title="BetterThenEnigma" Height="450" Width="800">
     <Window.Resources>
+       
         <Style TargetType="TextBox">
             <Style.Triggers>
                 <Trigger Property="Validation.HasError" Value="True">
@@ -19,6 +20,7 @@
                 </Trigger>
             </Style.Triggers>
         </Style>
+       
         <ControlTemplate x:Key="validationFailed">
             <StackPanel Orientation="Horizontal">
                 <Border BorderBrush="Violet" BorderThickness="1">
@@ -27,26 +29,70 @@
                 <TextBlock Foreground="Red"  FontWeight="Bold">!</TextBlock>
             </StackPanel>
         </ControlTemplate>
+       
+        <Style TargetType="Path" x:Key="pathArrow" >
+            <Setter Property="Fill" Value="SandyBrown"/>
+            <Style.Triggers>
+                <Trigger Property="IsMouseOver" Value="true">
+                    <Setter Property="Fill" Value="Brown"/>
+                </Trigger>
+            </Style.Triggers>
+        </Style>
+       
+        <Style TargetType="Button" x:Key="btnArrow">
+            <Setter  Property="Background" Value="LightGreen"/>
+            <Setter  Property="Width" Value="20"/>
+            <Setter  Property="Height" Value="20"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Button">
+                        <Grid x:Name="triangle" HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
+                              VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
+                               Margin="{TemplateBinding Padding}">
+                            
+                        <!--<Path x:Name="triangle"  Fill="{TemplateBinding Background}" Data="M 0 6 L 12 6 L 6 0 Z"/>-->
+                            <ContentControl  Margin="{TemplateBinding Padding}"
+                              HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
+                              VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
+                              Content="{TemplateBinding Content}" />
+                       
+                        </Grid>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsMouseOver" Value="true">
+                             
+                                <Setter  Property="Background" Value="Brown" />
+                            </Trigger>
+                           
+                            <Trigger Property="IsEnabled" Value="false">
+                                <Setter  Property="Background" Value="Gray"/>
+                              
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
 
-        <Style TargetType="Button">
+            </Setter>
+        </Style>
+       
+        <Style TargetType="Button" >
             <Setter  Property="FontSize"  Value="23"/>
             <Setter  Property="FontWeight" Value="Bold"/>
             <Setter  Property="Foreground" Value="CornflowerBlue"/>
             <Setter  Property="Background" Value="LightPink"/>
-
+            <Setter  Property="Padding" Value="5"/>
             <Setter Property="Template">
                 <Setter.Value>
                     <ControlTemplate TargetType="Button">
                         <Border x:Name="buttonBorder" CornerRadius="15"
-                BorderBrush="{TemplateBinding BorderBrush}"
-                BorderThickness="{TemplateBinding BorderThickness}"
-                Background="{TemplateBinding Background}"
-                Height="{TemplateBinding Height}"
-                Width="{TemplateBinding Width}" Margin="5" >
+                          BorderBrush="{TemplateBinding BorderBrush}"
+                          BorderThickness="{TemplateBinding BorderThickness}"
+                          Background="{TemplateBinding Background}"
+                          Height="{TemplateBinding Height}"
+                          Width="{TemplateBinding Width}" Margin="5" >
                             <ContentControl Margin="{TemplateBinding Padding}"
-                    HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
-                    VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
-                    Content="{TemplateBinding Content}" />
+                              HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
+                              VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
+                              Content="{TemplateBinding Content}" />
                         </Border>
                         <ControlTemplate.Triggers>
                             <Trigger Property="IsMouseOver" Value="true">
@@ -89,46 +135,63 @@
             <ColumnDefinition Width="*"/>
             
         </Grid.ColumnDefinitions>
+       
         <TextBox Grid.Row="0" Grid.ColumnSpan="10" Margin="20,5,20,5" IsReadOnly="True" Text="{Binding Output}"
                  TextAlignment="Center"
-                  FontSize="25" Padding="0,10,0,0"/>
+                  FontSize="25" Padding="0,10,0,0"
+                 FontWeight="Bold"
+                 Foreground="RosyBrown"
+                 TextWrapping="Wrap"/>
+        
         <StackPanel Grid.Row="1" Grid.Column="6" Grid.ColumnSpan="5" Orientation="Horizontal" HorizontalAlignment="Stretch" VerticalAlignment="Center">
-            <Button Content="Clear" Command="{Binding ResetCmd}" Margin="0,0,15,0" ></Button>
-            <Button Content="Reset" IsEnabled="False"></Button>
-            <Button Content="Save" IsEnabled="False"></Button>
+            <Button Content="Clear" Command="{Binding ResetCmd}" Margin="0,0,15,0" Foreground="Red" FontSize="25" ></Button>
+            <Button Content="Reset" IsEnabled="False" ></Button>
+            <Button Content="Save" IsEnabled="False" ></Button>
         </StackPanel>
+        
         <Grid Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="2">
             <Grid.RowDefinitions>
                 <RowDefinition Height="*"/>
                 <RowDefinition Height="*"/>
             </Grid.RowDefinitions>
+           
             <StackPanel Grid.Row="0"  HorizontalAlignment="Center" Margin="0,2,0,0">
-            <TextBlock Text="Input:"/>
-            <TextBlock Text="{Binding Input}" Foreground="Red" Margin="0,10,0,0"/>
-        </StackPanel>
+              <TextBlock Text="Input:"/>
+              <TextBlock Text="{Binding Input}" Foreground="Red" Margin="0,10,0,0"/>
+            </StackPanel>
             
-        <StackPanel Grid.Row="1" HorizontalAlignment="Center">
-            <TextBlock Text="Output:"/>
-            <TextBlock Text="{Binding Output}" Foreground="DarkGreen" Margin="0,10,0,0"/>
-        </StackPanel>
+           <StackPanel Grid.Row="1" HorizontalAlignment="Center">
+             <TextBlock Text="Output:"/>
+             <TextBlock Text="{Binding Output}" Foreground="DarkGreen" Margin="0,10,0,0"/>
+           </StackPanel>
         </Grid>
+       
         <StackPanel Orientation="Horizontal" Grid.Row="1" Grid.Column="2" Grid.ColumnSpan="4" >
             <StackPanel >
-                <TextBlock Text="1 Wheel:" Margin="0,2,0,0"/>
-                <TextBox Validation.ErrorTemplate="{StaticResource validationFailed}" Margin="0,10,0,0">
+                <TextBlock Text="1 Wheel:" Margin="0,2,0,10"/>
+                <Button Style="{StaticResource btnArrow}" Command="{Binding AddValueCmd}" CommandParameter="1">
+                    <Path  Data="M 0 7 L 14 7 L 7 0 Z" Style="{StaticResource pathArrow}"/>
+                </Button>
+                <TextBox Validation.ErrorTemplate="{StaticResource validationFailed}" Margin="0,2,0,2" TextAlignment="Center">
                     <TextBox.Text>
                         <Binding Path="FirstWheelStartPosition" UpdateSourceTrigger="PropertyChanged">
-                          
                             <Binding.ValidationRules>
                                 <DataErrorValidationRule />
                             </Binding.ValidationRules>
                         </Binding>
                     </TextBox.Text>
                 </TextBox>
+                <Button Style="{StaticResource btnArrow}" Command="{Binding DecreaseValueCmd}" CommandParameter="1">
+                    <Path  Data="M 0 0 L 7 7 L 14 0 Z" Style="{StaticResource pathArrow}"/>
+                </Button>
             </StackPanel >
-            <StackPanel Margin="10,0,10,0">
-                <TextBlock Text="2 Wheel:" Margin="0,2,0,0"/>
-                <TextBox Validation.ErrorTemplate="{StaticResource validationFailed}" Margin="0,10,0,0">
+           
+            <StackPanel Margin="10,0,10,0" HorizontalAlignment="Center">
+                <TextBlock Text="2 Wheel:" Margin="0,2,0,10"/>
+                <Button Style="{StaticResource btnArrow}" Command="{Binding AddValueCmd}" CommandParameter="2">
+                    <Path  Data="M 0 7 L 14 7 L 7 0 Z" Style="{StaticResource pathArrow}"/>
+                </Button>
+                <TextBox Validation.ErrorTemplate="{StaticResource validationFailed}" Margin="0,2,0,2" TextAlignment="Center">
                     <TextBox.Text>
                         <Binding Path="SecondWheelStartPosition" UpdateSourceTrigger="PropertyChanged">
 
@@ -137,11 +200,18 @@
                             </Binding.ValidationRules>
                         </Binding>
                     </TextBox.Text>
-                </TextBox> 
+                </TextBox>
+                <Button Style="{StaticResource btnArrow}" Command="{Binding DecreaseValueCmd}" CommandParameter="2">
+                    <Path  Data="M 0 0 L 7 7 L 14 0 Z" Style="{StaticResource pathArrow}"/>
+                </Button>
             </StackPanel>
+           
             <StackPanel Margin="10,0,10,0">
-                <TextBlock Text="3 Wheel:" Margin="0,2,0,0"/>
-                <TextBox Validation.ErrorTemplate="{StaticResource validationFailed}" Margin="0,10,0,0">
+                <TextBlock Text="3 Wheel:" Margin="0,2,0,10"/>
+                <Button Style="{StaticResource btnArrow}" Command="{Binding AddValueCmd}" CommandParameter="3">
+                    <Path  Data="M 0 7 L 14 7 L 7 0 Z" Style="{StaticResource pathArrow}"/>
+                </Button>
+                <TextBox Validation.ErrorTemplate="{StaticResource validationFailed}" Margin="0,2,0,2" TextAlignment="Center">
                     <TextBox.Text>
                         <Binding Path="ThirdWheelStartPosition" UpdateSourceTrigger="PropertyChanged">
 
@@ -152,8 +222,12 @@
                     </TextBox.Text>
 
                 </TextBox>
+                <Button Style="{StaticResource btnArrow}" Command="{Binding DecreaseValueCmd}" CommandParameter="3">
+                    <Path  Data="M 0 0 L 7 7 L 14 0 Z" Style="{StaticResource pathArrow}"/>
+                </Button>
             </StackPanel>
         </StackPanel>
+       
         <Button Content="Q" Grid.Row="2" Grid.Column="0" Command="{Binding PressCmd}" CommandParameter='Q'/>
         <Button Content="W" Grid.Row="2" Grid.Column="1" Command="{Binding PressCmd}" CommandParameter="W"/>
         <Button Content="E" Grid.Row="2" Grid.Column="2" Command="{Binding PressCmd}" CommandParameter="E"/>

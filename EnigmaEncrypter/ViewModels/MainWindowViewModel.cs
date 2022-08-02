@@ -13,8 +13,10 @@ namespace EnigmaEncrypter.ViewModels
     {
 
         private readonly EncryptionService _Enigma;
-        private const int MAX_WHELL_VALUE = 25;
-        private const int MIN_WHELL_VALUE = 0;
+        
+        private const int MAX_WHEEL_VALUE = 25;
+       
+        private const int MIN_WHEEL_VALUE = 0;
        
         private string _Input;
 
@@ -35,7 +37,6 @@ namespace EnigmaEncrypter.ViewModels
             get { return _Output; }
             set
             {
-
                 SetProperty(ref _Output, value);
             }
         }
@@ -48,18 +49,18 @@ namespace EnigmaEncrypter.ViewModels
             get { return _FirstWheelStartPosition; }
             set
             {
-                if (value > MAX_WHELL_VALUE)
+                if (value > MAX_WHEEL_VALUE)
                 {
-                    value = MAX_WHELL_VALUE;
+                    value = MAX_WHEEL_VALUE;
                 }
-                if (value < MIN_WHELL_VALUE)
+                if (value < MIN_WHEEL_VALUE)
                 {
-                    value = MIN_WHELL_VALUE;
+                    value = MIN_WHEEL_VALUE;
                 }
 
                 if (SetProperty(ref _FirstWheelStartPosition, value))
                 {
-                    _Enigma.Wheels[0].InitWheelPoisition(value);
+                    _Enigma.Root.SetInitialPosition(0,value);
                 }
             }
         }
@@ -71,17 +72,17 @@ namespace EnigmaEncrypter.ViewModels
             get { return _SecondWheelStartPosition; }
             set
             {
-                if (value > MAX_WHELL_VALUE)
+                if (value > MAX_WHEEL_VALUE)
                 {
-                    value = MAX_WHELL_VALUE;
+                    value = MAX_WHEEL_VALUE;
                 }
-                if (value < MIN_WHELL_VALUE)
+                if (value < MIN_WHEEL_VALUE)
                 {
-                    value = MIN_WHELL_VALUE;
+                    value = MIN_WHEEL_VALUE;
                 }
                 SetProperty(ref _SecondWheelStartPosition, value);
 
-                _Enigma.Wheels[1].InitWheelPoisition(value);
+                _Enigma.Root.SetInitialPosition(1, value);
             }
         }
 
@@ -93,39 +94,73 @@ namespace EnigmaEncrypter.ViewModels
             get { return _ThirdWheelStartPosition; }
             set
             {
-                if (value > MAX_WHELL_VALUE)
+                if (value > MAX_WHEEL_VALUE)
                 {
-                    value = MAX_WHELL_VALUE;
+                    value = MAX_WHEEL_VALUE;
                 }
-                if (value < MIN_WHELL_VALUE)
+                if (value < MIN_WHEEL_VALUE)
                 {
-                    value = MIN_WHELL_VALUE;
+                    value = MIN_WHEEL_VALUE;
                 }
                 SetProperty(ref _ThirdWheelStartPosition, value);
 
-                //_Enigma?.SetPosition( _ThirdWheelStartPosition,2);
-                _Enigma.Wheels[2].InitWheelPoisition(value);
+                _Enigma.Root.SetInitialPosition(2, value);
             }
         }
 
         public Command PressCmd { get; }
         public Command ResetCmd { get; }
+        public Command AddValueCmd { get; }
+        public Command DecreaseValueCmd { get; }
 
 
         public MainWindowViewModel()
         {
             PressCmd = new Command(HandlePress);
             ResetCmd = new Command(HandleReset);
-
+            AddValueCmd = new Command(IncreasePosition);
+            DecreaseValueCmd = new Command(DecreasePosition);
 
             _Enigma = new EncryptionService();
+        }
+
+        private void DecreasePosition(object obj)
+        {
+
+            switch (obj.ToString())
+            {
+                case "1":
+                    FirstWheelStartPosition--;
+                    break;
+                case "2":
+                    SecondWheelStartPosition--;
+                    break;
+                case "3":
+                    ThirdWheelStartPosition--;
+                    break;
+            }
+        }
+
+        private void IncreasePosition(object obj)
+        {
+            switch(obj.ToString()){
+
+                case "1":
+                    FirstWheelStartPosition++;
+                    break;
+                case "2":
+                    SecondWheelStartPosition++;
+                    break;
+                case "3":
+                    ThirdWheelStartPosition++;
+                    break;
+            }
         }
 
         private void HandleReset()
         {
 
-            _Enigma.Reset();
-            //Result = "";
+            _Enigma.Reset();         
             Input = "";
             Output = "";
             FirstWheelStartPosition = 0;
@@ -140,12 +175,9 @@ namespace EnigmaEncrypter.ViewModels
             {
                 var chr = str[0];
                 Input += chr.ToString();
-                Output += _Enigma.EncryptLetter(chr);
+                Output += _Enigma.Encrypt(chr);
             }
-            //var letter = Enum.Parse<Models.LetterEnum>(obj.ToString());
-            //Input += obj.ToString();
-            //Result += _Enigma.EncryptLetter(letter);
-            //Output = Result;
+            
         }
     }
 }

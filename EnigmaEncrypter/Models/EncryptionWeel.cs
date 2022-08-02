@@ -8,86 +8,166 @@ namespace EnigmaEncrypter.Models
 {
     public class EncryptionWheel
     {
-        public Dictionary<int, int> WheelConverter { get; private set; }
+       private Dictionary<int, int> _WheelConverter;
 
+        private int _Counter;
 
-        public int Counter { get; private set; }
-
-
-        public int RotatePosition { get; private set; }
+        private int _RotatePosition;
 
         public void SetInitialPosition(int position)
         {
-            Counter = position;
+            _Counter = position;
         }
+
+        public EncryptionWheel? Next { get; set; } = null;
+
+        public EncryptionWheel? Previous { get; set; } = null;
 
         public EncryptionWheel(Dictionary<int, int> abcIntDict)
         {
-            WheelConverter = abcIntDict;
+            _WheelConverter = abcIntDict;
 
-            RotatePosition = abcIntDict.Count - 1;
+            _RotatePosition = abcIntDict.Count ;
         }
-
-
-        /// <summary>
-        /// EncryptionWheel => what does this do??
-        /// </summary>
-        /// <param name="letters">what does the payload means</param>
 
 
         public EncryptionWheel(char[] letters)
         {
             //Defines when next wheel makes rotation
-            RotatePosition = letters.Length - 1;
+            _RotatePosition = letters.Length ;
 
-            WheelConverter = new Dictionary<int, int>();
+            _WheelConverter = new Dictionary<int, int>();
             for (int i = 0; i < letters.Length; i++)
             {
-                WheelConverter[i] = letters[i] - 65;
+                _WheelConverter[i] = letters[i] - 65;
             }
         }
 
-        public void Rotate()
+
+        //public string Encrypt(int input)
+        //{
+        //    var intChr = input - 65;
+
+        //    EncryptionWheel currentWheel = null;
+
+        //    EncryptionWheel previousWheel = null;
+
+        //    //every wheel encrypts  input with FromKeyToValue method 
+        //    while (currentWheel != null)
+        //    {
+        //        intChr = currentWheel.FromKeyToValue(intChr);
+
+        //        previousWheel = currentWheel;
+        //        currentWheel = currentWheel.Next;
+        //    }
+
+        //    //every wheel encrypts  input with FromValueToKey method exept last wheel(reflector)
+        //    currentWheel = previousWheel.Previous;
+
+        //    while (currentWheel != null)
+        //    {
+
+        //        intChr = currentWheel.FromValueToKey(intChr);
+        //        currentWheel = currentWheel.Previous;
+        //    }
+
+
+        //    var output = ((char)(intChr + 65)).ToString();
+            
+        //    Rotate();
+
+        //    return output;
+        //}
+
+        public int Encrypt(int input,bool isFromKeyToValue=true)
         {
-            Counter++;
+            var intChr = input;
+           
+            if (Next == null)
+            {
+                intChr = FromKeyToValue(intChr);
+                intChr = Previous!.Encrypt(intChr,false);
+            }
+            else
+            {
+                if (isFromKeyToValue)
+                {
+                    intChr = FromKeyToValue(intChr);
+                    intChr = Next.Encrypt(intChr);
+                }
+                else
+                {
+                    intChr = FromValueToKey(intChr);
+                    if (Previous == null) 
+                    {
+                        Rotate();
+                        return intChr; 
+                    }
+                    intChr = Previous.Encrypt(intChr, false);
+                }
+            }
+          
+            return intChr;
         }
 
-        public int FromKeyToValue(int value)
+        private void Rotate()
         {
-            var key = (value + Counter) % (WheelConverter.Count());
+            _Counter++;
+            
+            if (_Counter == _RotatePosition && Next?.Next != null)
+            {
+                Next.Rotate();
+            }
+            
+            if (_Counter == _WheelConverter.Count )
+            {
+                Reset();
+            }
+        }
 
-            bool hasValue = WheelConverter.TryGetValue(key, out var encryptedValue);
+        private int FromKeyToValue(int value)
+        {
+            var key = (value + _Counter) % (_WheelConverter.Count());
+
+            bool hasValue = _WheelConverter.TryGetValue(key, out var encryptedValue);
 
             if (hasValue)
             {
-
                 return encryptedValue;
             }
             return -1;
         }
 
 
-        public int FromValueToKey(int valueToFind)
+        private int FromValueToKey(int valueToFind)
         {
 
-            var myKey = WheelConverter.FirstOrDefault(x => x.Value == valueToFind).Key;
+            var myKey = _WheelConverter.FirstOrDefault(x => x.Value == valueToFind).Key;
 
-            var updatedKey = (WheelConverter.Count() + (myKey - Counter)) % (WheelConverter.Count());
+            var updatedKey = (_WheelConverter.Count() + (myKey - _Counter)) % (_WheelConverter.Count());
 
             return updatedKey;
         }
 
         internal void InitWheelPoisition(int value)
         {
-            Counter = value;
+            _Counter = value;
         }
 
-        public void Reset()
+        private void Reset()
         {
-            Counter = 0;
-
+            // reset
+            _Counter = 0;
         }
 
-
+        public void ResetTree()
+        {
+            // reset
+            Reset();
+            // return if you are the last node
+            if (Next == null) return;
+            // call next
+            Next.ResetTree();
+        }
     }
 }
