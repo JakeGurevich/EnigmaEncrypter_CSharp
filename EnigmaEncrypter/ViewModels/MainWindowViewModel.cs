@@ -2,6 +2,7 @@
 using EnigmaEncrypter.Services;
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Linq;
 using System.Text;
@@ -13,11 +14,11 @@ namespace EnigmaEncrypter.ViewModels
     {
 
         private readonly EncryptionService _Enigma;
-        
+
         private const int MAX_WHEEL_VALUE = 25;
-       
+
         private const int MIN_WHEEL_VALUE = 0;
-       
+
         private string _Input;
 
         public string Input
@@ -60,7 +61,7 @@ namespace EnigmaEncrypter.ViewModels
 
                 if (SetProperty(ref _FirstWheelStartPosition, value))
                 {
-                    _Enigma.Root.SetInitialPosition(0,value);
+                    _Enigma.Root.SetInitialPosition(0, value);
                 }
             }
         }
@@ -108,6 +109,10 @@ namespace EnigmaEncrypter.ViewModels
             }
         }
 
+        public ObservableCollection<string> List { get; } = new();
+
+        public Command ClearListCmd { get; }
+        public Command AddToListCmd { get; }
         public Command PressCmd { get; }
         public Command ResetCmd { get; }
         public Command AddValueCmd { get; }
@@ -120,8 +125,21 @@ namespace EnigmaEncrypter.ViewModels
             ResetCmd = new Command(HandleReset);
             AddValueCmd = new Command(IncreasePosition);
             DecreaseValueCmd = new Command(DecreasePosition);
+            AddToListCmd = new Command(AddToItemList);
+            ClearListCmd = new Command(ClearList);
 
             _Enigma = new EncryptionService();
+        }
+
+        private void ClearList()
+        {
+            List.Clear();
+        }
+
+        private void AddToItemList()
+        {
+            var item = $"Input: {_Input} - Output :{_Output}";
+            List.Add(item);
         }
 
         private void DecreasePosition(object obj)
@@ -143,7 +161,8 @@ namespace EnigmaEncrypter.ViewModels
 
         private void IncreasePosition(object obj)
         {
-            switch(obj.ToString()){
+            switch (obj.ToString())
+            {
 
                 case "1":
                     FirstWheelStartPosition++;
@@ -160,7 +179,7 @@ namespace EnigmaEncrypter.ViewModels
         private void HandleReset()
         {
 
-            _Enigma.Reset();         
+            _Enigma.Reset();
             Input = "";
             Output = "";
             FirstWheelStartPosition = 0;
@@ -177,7 +196,7 @@ namespace EnigmaEncrypter.ViewModels
                 Input += chr.ToString();
                 Output += _Enigma.Encrypt(chr);
             }
-            
+
         }
     }
 }

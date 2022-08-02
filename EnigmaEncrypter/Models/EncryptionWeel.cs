@@ -30,7 +30,6 @@ namespace EnigmaEncrypter.Models
             _RotatePosition = abcIntDict.Count ;
         }
 
-
         public EncryptionWheel(char[] letters)
         {
             //Defines when next wheel makes rotation
@@ -42,42 +41,6 @@ namespace EnigmaEncrypter.Models
                 _WheelConverter[i] = letters[i] - 65;
             }
         }
-
-
-        //public string Encrypt(int input)
-        //{
-        //    var intChr = input - 65;
-
-        //    EncryptionWheel currentWheel = null;
-
-        //    EncryptionWheel previousWheel = null;
-
-        //    //every wheel encrypts  input with FromKeyToValue method 
-        //    while (currentWheel != null)
-        //    {
-        //        intChr = currentWheel.FromKeyToValue(intChr);
-
-        //        previousWheel = currentWheel;
-        //        currentWheel = currentWheel.Next;
-        //    }
-
-        //    //every wheel encrypts  input with FromValueToKey method exept last wheel(reflector)
-        //    currentWheel = previousWheel.Previous;
-
-        //    while (currentWheel != null)
-        //    {
-
-        //        intChr = currentWheel.FromValueToKey(intChr);
-        //        currentWheel = currentWheel.Previous;
-        //    }
-
-
-        //    var output = ((char)(intChr + 65)).ToString();
-            
-        //    Rotate();
-
-        //    return output;
-        //}
 
         public int Encrypt(int input,bool isFromKeyToValue=true)
         {
@@ -137,7 +100,6 @@ namespace EnigmaEncrypter.Models
             }
             return -1;
         }
-
 
         private int FromValueToKey(int valueToFind)
         {

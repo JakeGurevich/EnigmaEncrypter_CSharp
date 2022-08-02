@@ -9,7 +9,8 @@
         d:DataContext="{d:DesignInstance viewModels:MainWindowViewModel}"
         Title="BetterThenEnigma" Height="450" Width="800">
     <Window.Resources>
-       
+        <BooleanToVisibilityConverter x:Key="VisibleIfTrueConverter" />
+        
         <Style TargetType="TextBox">
             <Style.Triggers>
                 <Trigger Property="Validation.HasError" Value="True">
@@ -41,31 +42,58 @@
        
         <Style TargetType="Button" x:Key="btnArrow">
             <Setter  Property="Background" Value="LightGreen"/>
-            <Setter  Property="Width" Value="20"/>
-            <Setter  Property="Height" Value="20"/>
             <Setter Property="Template">
                 <Setter.Value>
                     <ControlTemplate TargetType="Button">
                         <Grid x:Name="triangle" HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
                               VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
-                               Margin="{TemplateBinding Padding}">
-                            
-                        <!--<Path x:Name="triangle"  Fill="{TemplateBinding Background}" Data="M 0 6 L 12 6 L 6 0 Z"/>-->
+                               Margin="{TemplateBinding Padding}"
+                               Width="{TemplateBinding Width}"
+                               Height="{TemplateBinding Height}">
                             <ContentControl  Margin="{TemplateBinding Padding}"
                               HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
                               VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
                               Content="{TemplateBinding Content}" />
-                       
                         </Grid>
                         <ControlTemplate.Triggers>
                             <Trigger Property="IsMouseOver" Value="true">
-                             
                                 <Setter  Property="Background" Value="Brown" />
                             </Trigger>
-                           
-                            <Trigger Property="IsEnabled" Value="false">
-                                <Setter  Property="Background" Value="Gray"/>
-                              
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
+
+        <Style TargetType="ToggleButton" >
+            <Setter  Property="Content" Value="Show"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="ToggleButton">
+                        <Border x:Name="border" HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
+                              VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
+                               Background="LightGreen"
+                                CornerRadius="10"
+                               Margin="{TemplateBinding Padding}"
+                               Width="{TemplateBinding Width}"
+                               Height="{TemplateBinding Height}"
+                                Padding="5">
+
+                            <ContentControl  Margin="{TemplateBinding Padding}"
+                              HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
+                              VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
+                              Content="{TemplateBinding Content}" />
+
+                        </Border>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsMouseOver" Value="true">
+                                <Setter TargetName="border" Property="Background" Value="Green" />
+                                <Setter  Property="Foreground" Value="White" />
+                            </Trigger>
+
+                            <Trigger Property="IsChecked" Value="true">
+                                <Setter  Property="Content" Value="Hide"/>
                             </Trigger>
                         </ControlTemplate.Triggers>
                     </ControlTemplate>
@@ -73,9 +101,9 @@
 
             </Setter>
         </Style>
-       
+
         <Style TargetType="Button" >
-            <Setter  Property="FontSize"  Value="23"/>
+            <Setter  Property="FontSize"  Value="15"/>
             <Setter  Property="FontWeight" Value="Bold"/>
             <Setter  Property="Foreground" Value="CornflowerBlue"/>
             <Setter  Property="Background" Value="LightPink"/>
@@ -96,7 +124,7 @@
                         </Border>
                         <ControlTemplate.Triggers>
                             <Trigger Property="IsMouseOver" Value="true">
-                                <Setter Property="FontSize" Value="24" />
+                                <Setter Property="FontSize" Value="16" />
                                 <Setter Property="Background" Value="HotPink" />
                             </Trigger>
                             <Trigger Property="IsPressed" Value="true">
@@ -144,9 +172,9 @@
                  TextWrapping="Wrap"/>
         
         <StackPanel Grid.Row="1" Grid.Column="6" Grid.ColumnSpan="5" Orientation="Horizontal" HorizontalAlignment="Stretch" VerticalAlignment="Center">
-            <Button Content="Clear" Command="{Binding ResetCmd}" Margin="0,0,15,0" Foreground="Red" FontSize="25" ></Button>
-            <Button Content="Reset" IsEnabled="False" ></Button>
-            <Button Content="Save" IsEnabled="False" ></Button>
+            <Button Content="Clear" Command="{Binding ResetCmd}" Margin="0,0,15,0" Foreground="Red" FontSize="25" />
+            <Button Content="Save" Command="{Binding AddToListCmd}" />
+            <Button Content="Reset" Command="{Binding ClearListCmd}"/>
         </StackPanel>
         
         <Grid Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="2">
@@ -166,7 +194,7 @@
            </StackPanel>
         </Grid>
        
-        <StackPanel Orientation="Horizontal" Grid.Row="1" Grid.Column="2" Grid.ColumnSpan="4" >
+        <StackPanel Orientation="Horizontal" Grid.Row="1" Grid.Column="2" Grid.ColumnSpan="2" >
             <StackPanel >
                 <TextBlock Text="1 Wheel:" Margin="0,2,0,10"/>
                 <Button Style="{StaticResource btnArrow}" Command="{Binding AddValueCmd}" CommandParameter="1">
@@ -227,6 +255,24 @@
                 </Button>
             </StackPanel>
         </StackPanel>
+        <Grid Grid.Row="1" Grid.Column="4" Grid.ColumnSpan="2" >
+            <Grid.RowDefinitions>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="2*"/>
+                <RowDefinition Height="2*"/>
+            </Grid.RowDefinitions>
+            <StackPanel Grid.Row="0" Orientation="Horizontal" HorizontalAlignment="Center">
+            <TextBlock Text="Saved: "/>
+            <TextBlock Text="{Binding List.Count}"/>
+                
+            </StackPanel>
+            <ComboBox Grid.Row="1" ItemsSource="{Binding List}" SelectedIndex="0"
+                      HorizontalAlignment="Center" VerticalAlignment="Center" Visibility="{Binding ElementName=toggleBtn,Path=IsChecked,Converter={StaticResource VisibleIfTrueConverter}}"/>
+            <ToggleButton x:Name="toggleBtn" Grid.Row="2" VerticalAlignment="Center" HorizontalAlignment="Center" />
+
+
+
+        </Grid>
        
         <Button Content="Q" Grid.Row="2" Grid.Column="0" Command="{Binding PressCmd}" CommandParameter='Q'/>
         <Button Content="W" Grid.Row="2" Grid.Column="1" Command="{Binding PressCmd}" CommandParameter="W"/>
