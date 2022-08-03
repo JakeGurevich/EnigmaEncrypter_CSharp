@@ -8,7 +8,7 @@ namespace EnigmaEncrypter.Models
 {
     public class EncryptionWheel
     {
-       private Dictionary<int, int> _WheelConverter;
+        private Dictionary<int, int> _WheelConverter;
 
         private int _Counter;
 
@@ -27,13 +27,13 @@ namespace EnigmaEncrypter.Models
         {
             _WheelConverter = abcIntDict;
 
-            _RotatePosition = abcIntDict.Count ;
+            _RotatePosition = abcIntDict.Count;
         }
 
         public EncryptionWheel(char[] letters)
         {
             //Defines when next wheel makes rotation
-            _RotatePosition = letters.Length ;
+            _RotatePosition = letters.Length;
 
             _WheelConverter = new Dictionary<int, int>();
             for (int i = 0; i < letters.Length; i++)
@@ -42,14 +42,14 @@ namespace EnigmaEncrypter.Models
             }
         }
 
-        public int Encrypt(int input,bool isFromKeyToValue=true)
+        public int Encrypt(int input, bool isFromKeyToValue = true)
         {
             var intChr = input;
-           
+
             if (Next == null)
             {
                 intChr = FromKeyToValue(intChr);
-                intChr = Previous!.Encrypt(intChr,false);
+                intChr = Previous!.Encrypt(intChr, false);
             }
             else
             {
@@ -61,28 +61,28 @@ namespace EnigmaEncrypter.Models
                 else
                 {
                     intChr = FromValueToKey(intChr);
-                    if (Previous == null) 
+                    if (Previous == null)
                     {
                         Rotate();
-                        return intChr; 
+                        return intChr;
                     }
                     intChr = Previous.Encrypt(intChr, false);
                 }
             }
-          
+
             return intChr;
         }
 
         private void Rotate()
         {
             _Counter++;
-            
+
             if (_Counter == _RotatePosition && Next?.Next != null)
             {
                 Next.Rotate();
             }
-            
-            if (_Counter == _WheelConverter.Count )
+
+            if (_Counter == _WheelConverter.Count)
             {
                 Reset();
             }
