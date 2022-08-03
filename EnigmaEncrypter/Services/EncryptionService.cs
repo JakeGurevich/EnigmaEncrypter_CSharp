@@ -42,8 +42,9 @@ namespace EnigmaEncrypter.Services
                  'L', 'N', 'U', 'Z', 'O', 'R',  'C', 'T', 'Q', 'F', 'D', 'E','Y', 'P' };
 
         private char[] _reflector = new[] { 'R', 'U', 'S', 'M', 'J', 'Z', 'O', 'W', 'Y', 'E', 'X', 'Q','D',
-                  'T', 'G', 'D', 'L', 'A',  'C', 'N', 'B', 'V', 'H', 'K','I', 'F' };
-      
+                                            'T', 'G', 'V', 'L', 'A',  'C', 'N', 'B', 'P', 'H', 'K','I', 'F' };
+        private string[]  alphabet = new[] { "a", "b", "c", "d", "e", "f", "g", "h", "i", "j", "k", "l", "m",
+                                             "n", "o", "p", "q", "r", "s", "t", "u", "v", "w", "x", "y", "z" };
         private EncryptionWheel _root;
 
         public EncryptionWheel Root => _root;

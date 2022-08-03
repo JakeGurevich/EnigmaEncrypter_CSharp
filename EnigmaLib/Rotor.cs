@@ -16,9 +16,9 @@ public class Rotor
         }
     }
 
-    internal int ApplyForward(int c) => 
+    internal int ApplyForward(int c) =>
         _WireMap[(c + Position) % EnigmaMachine.NumChars];
 
-    internal int ApplyBackward(int c) => 
-        (_InverseWireMap[c] - Position + EnigmaMachine.NumChars) % EnigmaMachine.NumChars;
+    internal int ApplyBackward(int c) =>
+        (_InverseWireMap[(c - Position + EnigmaMachine.NumChars) % EnigmaMachine.NumChars]);
 }

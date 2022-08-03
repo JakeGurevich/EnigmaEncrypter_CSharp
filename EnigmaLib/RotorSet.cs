@@ -38,10 +38,12 @@ public class RotorSet
     internal int ApplyBackward(int c)
     {
         var c1 = c;
-
-        foreach (var rotor in _Rotors)
-            c1 = rotor.ApplyBackward(c1);
-
+       
+        for(var i = _Rotors.Count-1; i >= 0; i--)
+        {
+            c1 = _Rotors[i].ApplyBackward(c1);
+        }
+        
         return c1;
     }
 
