@@ -22,7 +22,12 @@ public class Rotor
     internal int ApplyBackward(int c)
     {
         var ci = _InverseWireMap[c];
-        
+
         return (ci - Position + EnigmaMachine.NumChars) % EnigmaMachine.NumChars;
+    }
+
+    internal void Reset()
+    {
+        Position = 0;
     }
 }

@@ -66,7 +66,7 @@ namespace EnigmaLib
 
             ci = _RotorSet.ApplyBackward(ci);
             
-            //_RotorSet.Step();
+            _RotorSet.Step();
 
             return _BackwardConverter[ci];
         }
@@ -82,6 +82,12 @@ namespace EnigmaLib
         // {
         //
         // }
+       
+        
+        public void Reset()
+        {
+            _RotorSet.Reset();
+        }
         
         
         Reflector _Reflector;

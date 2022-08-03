@@ -1,4 +1,5 @@
 ﻿using EnigmaEncrypter.Models;
+using EnigmaLib;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -43,16 +44,15 @@ namespace EnigmaEncrypter.Services
 
         private char[] _reflector = new[] { 'R', 'U', 'S', 'M', 'J', 'Z', 'O', 'W', 'Y', 'E', 'X', 'Q','D',
                                             'T', 'G', 'V', 'L', 'A',  'C', 'N', 'B', 'P', 'H', 'K','I', 'F' };
-        private string[]  alphabet = new[] { "a", "b", "c", "d", "e", "f", "g", "h", "i", "j", "k", "l", "m",
-                                             "n", "o", "p", "q", "r", "s", "t", "u", "v", "w", "x", "y", "z" };
+
         private EncryptionWheel _root;
 
         public EncryptionWheel Root => _root;
 
+
         public EncryptionService()
         {
             _root = new EncryptionWheel(_firstWheel);
-
             var secondWheel = new EncryptionWheel(_secondWheel);
             _root.Next = secondWheel;
             secondWheel.Previous = _root;
@@ -64,20 +64,22 @@ namespace EnigmaEncrypter.Services
             var reflector = new EncryptionWheel(_reflector);
             thirdWheel.Next = reflector;
             reflector.Previous = thirdWheel;
-          
+
         }
 
         public string Encrypt(char input)
         {
             var intChar = input - 65;
-            
+
             intChar = _root.Encrypt(intChar);
 
             return ((char)(intChar + 65)).ToString();
+
+
         }
 
-        
-       
+
+
         public void Reset() => _root.ResetTree();
 
     }

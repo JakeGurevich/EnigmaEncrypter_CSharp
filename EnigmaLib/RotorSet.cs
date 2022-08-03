@@ -20,7 +20,7 @@ public class RotorSet
     {
         foreach (var rotor in _Rotors)
         {
-            rotor.Position = (rotor.Position++) % EnigmaMachine.NumChars;
+            rotor.Position = (++rotor.Position) % EnigmaMachine.NumChars;
             if (rotor.Position != 0) break;
         }
     }
@@ -57,5 +57,9 @@ public class RotorSet
         }
     }
 
-
+    internal void Reset()
+    {
+        foreach (var rotor in _Rotors)
+            rotor.Reset();
+    }
 }

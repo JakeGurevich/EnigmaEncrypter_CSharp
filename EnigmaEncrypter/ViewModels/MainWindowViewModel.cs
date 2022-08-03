@@ -1,5 +1,6 @@
 ﻿using Base;
 using EnigmaEncrypter.Services;
+using EnigmaLib;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -13,7 +14,9 @@ namespace EnigmaEncrypter.ViewModels
     public class MainWindowViewModel : ObservableObject
     {
 
-        private readonly EncryptionService _Enigma;
+        //private readonly EncryptionService _Enigma;
+       
+        private readonly EnigmaMachine _Enigma;
 
         private const int MAX_WHEEL_VALUE = 25;
 
@@ -61,7 +64,8 @@ namespace EnigmaEncrypter.ViewModels
 
                 if (SetProperty(ref _FirstWheelStartPosition, value))
                 {
-                    _Enigma.Root.SetInitialPosition(0, value);
+                    //_Enigma.Root.SetInitialPosition(0, value);
+                    _Enigma.SetRotorPositions(new[]{ value, _SecondWheelStartPosition, _ThirdWheelStartPosition});
                 }
             }
         }
@@ -83,7 +87,8 @@ namespace EnigmaEncrypter.ViewModels
                 }
                 SetProperty(ref _SecondWheelStartPosition, value);
 
-                _Enigma.Root.SetInitialPosition(1, value);
+                //_Enigma.Root.SetInitialPosition(1, value);
+                _Enigma.SetRotorPositions(new[] { _FirstWheelStartPosition, value, _ThirdWheelStartPosition });
             }
         }
 
@@ -105,7 +110,9 @@ namespace EnigmaEncrypter.ViewModels
                 }
                 SetProperty(ref _ThirdWheelStartPosition, value);
 
-                _Enigma.Root.SetInitialPosition(2, value);
+                //_Enigma.Root.SetInitialPosition(2, value);
+                _Enigma.SetRotorPositions(new[] { _FirstWheelStartPosition, _SecondWheelStartPosition, value });
+
             }
         }
 
@@ -128,7 +135,8 @@ namespace EnigmaEncrypter.ViewModels
             AddToListCmd = new Command(AddToItemList);
             ClearListCmd = new Command(ClearList);
 
-            _Enigma = new EncryptionService();
+            //_Enigma = new EncryptionService();
+            _Enigma = new();
         }
 
         private void ClearList()
@@ -194,7 +202,7 @@ namespace EnigmaEncrypter.ViewModels
             {
                 var chr = str[0];
                 Input += chr.ToString();
-                Output += _Enigma.Encrypt(chr);
+                Output += _Enigma.Apply(chr).ToString();
             }
 
         }

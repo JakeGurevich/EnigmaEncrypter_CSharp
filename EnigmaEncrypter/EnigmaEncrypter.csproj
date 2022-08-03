@@ -9,6 +9,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\Base\Base.csproj" />
+    <ProjectReference Include="..\EnigmaLib\EnigmaLib.csproj" />
   </ItemGroup>
 
 </Project>
