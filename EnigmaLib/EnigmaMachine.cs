@@ -5,6 +5,7 @@ using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 using EnigmaLib.Config;
+using EnigmaLib.Utils;
 using Newtonsoft.Json;
 
 namespace EnigmaLib
@@ -34,6 +35,7 @@ namespace EnigmaLib
                 Console.WriteLine($"Rot: {rot}");
             }
 
+            
             var letters = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
 
             for (var i = 0; i < NumChars; i++)
@@ -42,18 +44,16 @@ namespace EnigmaLib
                 _BackwardConverter[i] = letters[i];
             }
 
+            _Generator = new WireGenerator();
+            
+            _Generator.GenerateWiring(_ForwardConverter, conf);
+            
+            _RotorSet.SetRotorWiring(_Generator.RotorWires);
+           
+            _Reflector = new Reflector(_Generator.RefWires);
 
-            List<int[]> rotorWires = new();
 
-            foreach (var rotor in conf.Rotors)
-            {
-                rotorWires.Add(rotor.Select(c => _ForwardConverter[c]).ToArray());
-            }
-
-            _RotorSet.SetRotorWiring(rotorWires);
-
-            var refWires = conf.Reflector.Select(c => _ForwardConverter[c]).ToArray();
-            _Reflector = new Reflector(refWires);
+          
         }
 
         public char Apply(char c)
@@ -95,6 +95,7 @@ namespace EnigmaLib
 
         Dictionary<char, int> _ForwardConverter = new();
         Dictionary<int, char> _BackwardConverter = new();
+        WireGenerator _Generator;
 
     }
 }

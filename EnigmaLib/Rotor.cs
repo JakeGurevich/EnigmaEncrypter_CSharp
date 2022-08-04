@@ -5,7 +5,9 @@ public class Rotor
     readonly int[] _WireMap = new int[EnigmaMachine.NumChars];
     readonly int[] _InverseWireMap = new int[EnigmaMachine.NumChars];
 
-    public int Position { get; set; }
+    internal int Position { get; set; }
+    public int StepPosition { get;private set; } = EnigmaMachine.NumChars;
+
 
     public Rotor(int[] wiring)
     {

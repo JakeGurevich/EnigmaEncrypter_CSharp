@@ -21,7 +21,7 @@ public class RotorSet
         foreach (var rotor in _Rotors)
         {
             rotor.Position = (++rotor.Position) % EnigmaMachine.NumChars;
-            if (rotor.Position != 0) break;
+            if (rotor.Position != rotor.StepPosition) break;
         }
     }
 
