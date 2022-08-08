@@ -10,30 +10,8 @@
         Title="BetterThenEnigma" Height="450" Width="800">
     <Window.Resources>
         <BooleanToVisibilityConverter x:Key="VisibleIfTrueConverter" />
-        <Style TargetType="TextBlock" x:Key="text1">
-            <Setter Property="Foreground" Value="LemonChiffon"/>
-            <Setter Property="FontWeight" Value="Bold"/>
-        </Style>
-        <Style TargetType="TextBox">
-            <Style.Triggers>
-                <Trigger Property="Validation.HasError" Value="True">
-                    <Setter Property="ToolTip"
-                Value="{Binding RelativeSource={RelativeSource Self},
-                    Path=(Validation.Errors)[0].ErrorContent}" />
-                    <Setter Property="Foreground" Value="Blue" />
-                </Trigger>
-            </Style.Triggers>
-        </Style>
-       
-        <ControlTemplate x:Key="validationFailed">
-            <StackPanel Orientation="Horizontal">
-                <Border BorderBrush="Violet" BorderThickness="1">
-                    <AdornedElementPlaceholder />
-                </Border>
-                <TextBlock Foreground="Red"  FontWeight="Bold">!</TextBlock>
-            </StackPanel>
-        </ControlTemplate>
-       
+
+
         <Style TargetType="Path" x:Key="pathArrow" >
             <Setter Property="Fill" Value="LemonChiffon"/>
             <Style.Triggers>
@@ -42,7 +20,7 @@
                 </Trigger>
             </Style.Triggers>
         </Style>
-       
+
         <Style TargetType="Button" x:Key="btnArrow">
             <Setter  Property="Background" Value="LemonChiffon"/>
             <Setter Property="Template">
@@ -105,45 +83,6 @@
             </Setter>
         </Style>
 
-        <Style TargetType="Button" >
-            <Setter  Property="FontSize"  Value="15"/>
-            <Setter  Property="FontWeight" Value="Bold"/>
-            <Setter  Property="Foreground" Value="CornflowerBlue"/>
-            <Setter  Property="Background" Value="LightPink"/>
-            <Setter  Property="Padding" Value="5"/>
-            <Setter Property="Template">
-                <Setter.Value>
-                    <ControlTemplate TargetType="Button">
-                        <Border x:Name="buttonBorder" CornerRadius="15"
-                          BorderBrush="{TemplateBinding BorderBrush}"
-                          BorderThickness="{TemplateBinding BorderThickness}"
-                          Background="{TemplateBinding Background}"
-                          Height="{TemplateBinding Height}"
-                          Width="{TemplateBinding Width}" Margin="5" >
-                            <ContentControl Margin="{TemplateBinding Padding}"
-                              HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
-                              VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
-                              Content="{TemplateBinding Content}" />
-                        </Border>
-                        <ControlTemplate.Triggers>
-                            <Trigger Property="IsMouseOver" Value="true">
-                                <Setter Property="FontSize" Value="16" />
-                                <Setter Property="Background" Value="HotPink" />
-                            </Trigger>
-                            <Trigger Property="IsPressed" Value="true">
-                                <Setter TargetName="buttonBorder" Property="Background" Value="Azure" />
-                                <Setter TargetName="buttonBorder" Property="BorderBrush" Value="DarkBlue" />
-                            </Trigger>
-                            <Trigger Property="IsEnabled" Value="false">
-                                <Setter Property="Foreground" Value="Gray"/>
-                                <Setter TargetName="buttonBorder" Property="Background" Value="LightGray"/>
-                            </Trigger>
-                        </ControlTemplate.Triggers>
-                    </ControlTemplate>
-                </Setter.Value>
-
-            </Setter>
-        </Style>
     </Window.Resources>
     <Grid Background="BlanchedAlmond">
         <Grid.RowDefinitions>
@@ -164,10 +103,10 @@
             <ColumnDefinition Width="*"/>
             <ColumnDefinition Width="*"/>
             <ColumnDefinition Width="*"/>
-            
+
         </Grid.ColumnDefinitions>
         <Border Grid.Row="0" Grid.RowSpan="2" Grid.ColumnSpan="10" Background="BurlyWood">
-            
+
         </Border>
         <TextBox Grid.Row="0" Grid.ColumnSpan="10" Margin="20,5,20,5" IsReadOnly="True" Text="{Binding Output}"
                  TextAlignment="Center"
@@ -175,30 +114,30 @@
                  FontWeight="Bold"
                  Foreground="RosyBrown"
                  TextWrapping="Wrap"/>
-      
+
         <StackPanel Grid.Row="1" Grid.Column="6" Grid.ColumnSpan="5" Orientation="Horizontal" HorizontalAlignment="Stretch" VerticalAlignment="Center">
             <Button Content="Clear" Command="{Binding ResetCmd}" Margin="0,0,15,0" Foreground="Red" FontSize="25" />
             <Button Content="Save" Command="{Binding AddToListCmd}" />
             <Button Content="Reset" Command="{Binding ClearListCmd}"/>
         </StackPanel>
-        
+
         <Grid Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="2">
             <Grid.RowDefinitions>
                 <RowDefinition Height="*"/>
                 <!--<RowDefinition Height="*"/>-->
             </Grid.RowDefinitions>
-           
+
             <StackPanel   HorizontalAlignment="Center" Margin="0,2,0,0" VerticalAlignment="Top" >
                 <TextBlock Text="Input:" HorizontalAlignment="Center" Style="{StaticResource text1}"/>
                 <TextBlock Text="{Binding Input}" Foreground="Red" Margin="0,10,0,0" TextWrapping="Wrap" Padding="10"/>
             </StackPanel>
-            
-           <!--<StackPanel Grid.Row="1" HorizontalAlignment="Center">
+
+            <!--<StackPanel Grid.Row="1" HorizontalAlignment="Center">
              <TextBlock Text="Output:"/>
              <TextBlock Text="{Binding Output}" Foreground="DarkGreen" Margin="0,10,0,0"/>
            </StackPanel>-->
         </Grid>
-       
+
         <StackPanel Orientation="Horizontal" Grid.Row="1" Grid.Column="2" Grid.ColumnSpan="2" >
             <StackPanel >
                 <TextBlock Text="1 Wheel:" Margin="0,2,0,10" Style="{StaticResource text1}"/>
@@ -218,7 +157,7 @@
                     <Path  Data="M 0 0 L 7 7 L 14 0 Z" Style="{StaticResource pathArrow}"/>
                 </Button>
             </StackPanel >
-           
+
             <StackPanel Margin="10,0,10,0" HorizontalAlignment="Center">
                 <TextBlock Text="2 Wheel:" Margin="0,2,0,10" Style="{StaticResource text1}"/>
                 <Button Style="{StaticResource btnArrow}" Command="{Binding AddValueCmd}" CommandParameter="2">
@@ -238,7 +177,7 @@
                     <Path  Data="M 0 0 L 7 7 L 14 0 Z" Style="{StaticResource pathArrow}"/>
                 </Button>
             </StackPanel>
-           
+
             <StackPanel Margin="5,0,10,0">
                 <TextBlock Text="3 Wheel:" Margin="0,2,0,10" Style="{StaticResource text1}"/>
                 <Button Style="{StaticResource btnArrow}" Command="{Binding AddValueCmd}" CommandParameter="3">
@@ -267,18 +206,18 @@
                 <RowDefinition Height="2*"/>
             </Grid.RowDefinitions>
             <StackPanel Grid.Row="0" Orientation="Horizontal" HorizontalAlignment="Center">
-                <TextBlock Text="Saved: " Style="{StaticResource text1}"/>
+                <TextBlock Text="Saved: " Style="{StaticResource text1_bold}"/>
                 <TextBlock Text="{Binding List.Count}" Foreground="LightGreen"/>
-                
+
             </StackPanel>
-            <ComboBox Grid.Row="1" ItemsSource="{Binding List}" SelectedIndex="0" Margin="4"
-                      HorizontalAlignment="Center" VerticalAlignment="Center" Visibility="{Binding ElementName=toggleBtn,Path=IsChecked,Converter={StaticResource VisibleIfTrueConverter}}"/>
-            <ToggleButton x:Name="toggleBtn" Grid.Row="2" VerticalAlignment="Center" HorizontalAlignment="Center" />
+            <ComboBox Grid.Row="1" ItemsSource="{Binding List}" SelectedIndex="0" Margin="4" HorizontalAlignment="Center" VerticalAlignment="Center"
+                     Visibility="{Binding ElementName=toggleBtn,Path=IsChecked,Converter={StaticResource VisibleIfTrueConverter}}"/>
+            <ToggleButton x:Name="toggleBtn" Grid.Row="2" VerticalAlignment="Top" HorizontalAlignment="Center" Margin="0,6,0,0" />
 
 
 
         </Grid>
-       
+
         <Button Content="Q" Grid.Row="2" Grid.Column="0" Command="{Binding PressCmd}" CommandParameter='Q'/>
         <Button Content="W" Grid.Row="2" Grid.Column="1" Command="{Binding PressCmd}" CommandParameter="W"/>
         <Button Content="E" Grid.Row="2" Grid.Column="2" Command="{Binding PressCmd}" CommandParameter="E"/>
